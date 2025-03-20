@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 const userSchema = new mongoose.Schema({
-    _id: {type: 'string',required: true, unique: true},
+    _id: {type: 'string',required: true},
     name: {type: 'string',required: true},
     email: {type: 'string',required: true, unique: true},
     resume: {type: 'string'},
