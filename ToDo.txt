@@ -1,0 +1,53 @@
+------> Continue from 05 hours 26 minutes
+        # Restart from Server folder's Model 
+
+
+
+// <---------------Backend Development---------------------->
+#**node_packages:------>
+        -- express
+        -- mongoose
+        -- bcrypt
+        -- cors
+        -- jsonwebtoken
+        -- dotenv
+        -- multer
+        -- cloudinary
+        -- nodemon
+        -- svix
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// <---------------Frontend Development---------------------->
+#**node_packages:------>
+        -- react-router-dom
+        -- react-toastify
+        -- tailwindcss
+        -- quill
+        -- k-convert
+        -- moment
+#***........Pages.........
+1. [Done] Home Page
+2. [Done] Job Details Page
+3. [Done] Total Applications Page
+        //Recruiter Part--------------------------------------------------
+4. [Done] Recruiter Login Popup Page
+5. [Done] DashBoard
+6. [Done] -- Add Job Page
+7. [Done] -- View Applications Page
+8. [Done] -- Manage Job Page
+
