@@ -29,8 +29,9 @@ export const clerkWebHooks = async (req,res) =>{
                     image: data.image_url,
                     resume: ""
                 }
+                const reqBody = req.company;
                 const dat = await userModel.create(userData)
-                res.json({status:"Success",messsage:"New User created", data:dat})
+                res.json({status:"Success",  messsage:"New User created", data:dat})
                 break;
             }
 

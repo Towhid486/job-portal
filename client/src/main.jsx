@@ -5,6 +5,8 @@ import App from './App.jsx'
 import { AppContextProvider } from './context/AppContext.jsx'
 import { ClerkProvider } from '@clerk/clerk-react'
 import 'quill/dist/quill.snow.css'
+import {ToastContainer, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 // Import your Publishable Key
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -15,7 +17,9 @@ if (!PUBLISHABLE_KEY) {
 createRoot(document.getElementById('root')).render(
   <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
     <AppContextProvider>
+
       <App />
+      <ToastContainer />
     </AppContextProvider>
   </ClerkProvider>
 )

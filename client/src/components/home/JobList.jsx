@@ -121,12 +121,21 @@ const JobList = () => {
             
             {/* Job listings */}
             <section className='w-full lg:w-3/4 text-gray-800 max-lg:px-4'>
-                <h3 className='font-medium text-3xl py-2' id='job-list'>Latest jobs</h3>
+                <h3 className='font-medium text-3xl py-2' id='job-list'>Most Recent jobs</h3>
                 <p className='mb-8'>Get your desired job from top companies</p>
-                <h4 className='font-medium text-2xl pb-8 text-center' id='job-list'> {filteredJobs.length} Jobs Found</h4>
+                {
+                    filteredJobs.length > 0 ?(
+                        <h4 className='font-medium text-2xl pb-8 text-center' id='job-list'> {filteredJobs.length} Jobs Found</h4>
+                    )
+                    :
+                    (
+                        <h4 className='font-extra-medium text-2xl pb-8 text-blue-400 pt-10' id='job-list'>🔍 No jobs match your filters. Try adjusting your search criteria! 🥲</h4>
+                    )
+                }
+                
                 <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4'>
                     {
-                            filteredJobs.slice((currentPage-1)*6, currentPage*6).map((job,index)=>(
+                            filteredJobs.slice((currentPage-1)*10, currentPage*10).map((job,index)=>(
                             <JobCard key={index} job={job}/>
                         ))
                     }
@@ -137,15 +146,15 @@ const JobList = () => {
                 {filteredJobs.length > 0 && (
                     <div className='flex items-center justify-center space-x-2 mt-10'>
                         <a href="#job-list">
-                            <img onClick={()=>setCurrentPage(Math.max(currentPage-1),1)} src={assets.left_arrow_icon} alt="" />
+                            <img onClick={()=>setCurrentPage(Math.max(currentPage-1,1))} src={assets.left_arrow_icon} alt="" />
                         </a>
-                        {Array.from( {length:Math.ceil(filteredJobs.length/6)}).map((_,index)=> (
+                        {Array.from( {length:Math.ceil(filteredJobs.length/10)}).map((_,index)=> (
                             <a key={index} href="#job-list">
                                 <button onClick={()=>setCurrentPage(index+1)} className={`w-10 h-10 flex items-center justify-center hover:bg-gray-200 transition duration-400  border border-gray-300 rounded ${currentPage === index+1 ? 'bg-blue-100 text-blue-500' : 'text-gray-500' }`}>{index+1}</button>
                             </a>
                         )) }
                         <a href="#job-list">
-                            <img onClick={()=>setCurrentPage(Math.min(currentPage+1,Math.ceil(filteredJobs.length / 6)))} src={assets.right_arrow_icon} alt="" />
+                            <img onClick={()=>setCurrentPage(Math.min(currentPage+1,Math.ceil(filteredJobs.length / 10)))} src={assets.right_arrow_icon} alt="" />
                         </a>
                     </div>
                 )}

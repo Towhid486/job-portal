@@ -1,4 +1,4 @@
-------> Continue from 05 hours 26 minutes
+------> Continue from 08 hours 05 minutes
         # Restart from Server folder's Model 
 
 
@@ -16,12 +16,34 @@
         -- nodemon
         -- svix
 
+**API Documentation**
 
+// User login
+        1. http://localhost:5000/api/v1/registration
+        2. http://localhost:5000/api/v1/login
+        3. http://localhost:5000/api/v1/user-data
+// User Job apply, job applied and update resume
+        4. http://localhost:5000/api/v1/apply-job
+        5. http://localhost:5000/api/v1/applications
+        6. http://localhost:5000/api/v1/update-resume
 
+// Recruiter login
+        7. http://localhost:5000/api/v1/recruiter-register
+        8. http://localhost:5000/api/v1/recruiter-login
+        9. http://localhost:5000/api/v1/recruiter-logout
+//Recruiter or Company Data, posted jobs, add new job, applicants
+        10. http://localhost:5000/api/v1/company
+        11. http://localhost:5000/api/v1/add-new-job
+        12. http://localhost:5000/api/v1/company-jobs
+        13. http://localhost:5000/api/v1/applicants        
 
-
-
-
+// Change job status and job applications visibility by recruiter 
+        14. http://localhost:5000/api/v1/change-status
+        15. http://localhost:5000/api/v1/change-visibility
+        
+// Route to get all Jobs and Single Job details 
+        16. http://localhost:5000/api/v1/jobs
+        17. http://localhost:5000/api/v1/jobs/:id
 
 
 

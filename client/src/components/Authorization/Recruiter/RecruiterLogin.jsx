@@ -1,8 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { assets } from '../../../assets/assets';
 import { AppContext } from '../../../context/AppContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const RecruiterLogin = () => {
+    const navigate = useNavigate()
     const [state, setState] = useState('Login')
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
@@ -11,12 +15,32 @@ const RecruiterLogin = () => {
     const [image, setImage] = useState(false)
     const [isTextDataSubmitted, setIsTextDataSubmitted] = useState(false)
 
-    const {setShowRecruiterLogin} = useContext(AppContext)
+    const {setShowRecruiterLogin, backendURL , setCompanyToken, setCompanyData} = useContext(AppContext)
 
-    const onSubmitHandler = (e) => {
+    const onSubmitHandler = async (e) => {
         e.preventDefault()
         if(state==='Sign Up' && !isTextDataSubmitted){
             setIsTextDataSubmitted(true)
+        }
+        try{
+
+            if(state==='Login'){
+                const {data} = await axios.post(`${backendURL}/recruiter-login`,{email:email,password:password}, 
+                    { withCredentials: true } // Allow cookies
+                    )
+                if(data.status===true){
+                    setCompanyData(data.company)
+                    setCompanyToken(data.token)
+                    localStorage.setItem('recruiter_token',data.token)
+                    setShowRecruiterLogin(false)
+                    navigate('/dashboard')
+                }else{
+                    toast.error(data.message)
+                }
+            }
+
+        }catch(error){
+
         }
     }
 
@@ -57,7 +81,8 @@ const RecruiterLogin = () => {
                     
                         <div className='border px-4 py-2 flex items-center gap-2 rounded-full mt-5'>
                             <img src={assets.email_icon} alt="" />
-                            <input className='outline-none text-sm' onChange={(e)=> setEmail(e.target.value)} value={email} type="email" placeholder='Email Address' required/>
+                            <input className='outline-none text-sm' onChange={(e)=> setEmail(e.target.value)} value={email} type="email" placeholder='Email Addressa' required/>
+                            {console.log(email)}
                         </div>
 
                         <div className='border px-4 py-2 flex items-center gap-2 rounded-full mt-5'>

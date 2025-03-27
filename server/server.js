@@ -1,24 +1,36 @@
 import './src/config/instrument.js'
 import express from 'express'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import 'dotenv/config'
 import connectDB from './src/config/db.js'
 import * as Sentry from "@sentry/node"
 import { clerkWebHooks } from './src/controller/webHooks.js'
+import router from './src/routes/api.js';
+import { connectCloudinary } from './src/config/cloudinary.js'
 //Initialize Express
 const app = express()
 
 await connectDB()
-//Middleware
-app.use(cors())
-app.use(express.json())
+await connectCloudinary()
 
+//Middleware
+app.use(cors({
+  origin: "http://localhost:5173", // Your frontend URL
+  credentials: true // Allow cookies
+}));
+app.use(express.json())
+app.use(cookieParser())
 //Routes
 app.get('/', (req,res)=>res.send("API Working"))
 app.get("/debug-sentry", function mainHandler(req, res) {
     throw new Error("My first Sentry error!");
   });
-app.post('/webhooks', clerkWebHooks)
+// app.post('/webhooks', clerkWebHooks)
+
+
+app.set('etag', false);
+app.use('/api/v1', router);
 
 
 //Port
