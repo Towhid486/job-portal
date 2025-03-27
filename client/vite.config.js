@@ -9,13 +9,13 @@ export default defineConfig({
     tailwindcss(),
 
   ],
-  server:{
-    proxy:{
-      '/api/v1':{
-        target:"https://job-portal-server-five-mu.vercel.app",
-        secure:false,
-        changeOrigin: true,
-      }
-    }
-  }
+  // server:{
+  //   proxy:{
+  //     '/api/v1':{
+  //       target:"https://job-portal-server-five-mu.vercel.app",
+  //       secure:false,
+  //       changeOrigin: true,
+  //     }
+  //   }
+  // }
 })
