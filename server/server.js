@@ -18,7 +18,8 @@ await connectCloudinary()
 app.use(cors({
   origin: "https://job-portal-client-towhid.vercel.app",
   methods: ["GET", "POST", "PUT", "PATCH"],
-  credentials: true 
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 app.use(express.json())
 app.use(cookieParser())
