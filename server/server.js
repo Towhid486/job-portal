@@ -16,7 +16,7 @@ await connectCloudinary()
 
 //Middleware
 app.use(cors({
-  origin: "http://localhost:5173", // Your frontend URL
+  origin: "https://job-portal-client-towhid.vercel.app", // Your frontend URL
   credentials: true // Allow cookies
 }));
 app.use(express.json())
