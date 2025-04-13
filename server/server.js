@@ -16,7 +16,7 @@ await connectCloudinary()
 
 //Middleware
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://job-portal-client-towhid.vercel.app",
   methods: ["GET", "POST", "PUT", "PATCH"],
   credentials: true,
   // allowedHeaders: ["Content-Type", "Authorization","token"],
