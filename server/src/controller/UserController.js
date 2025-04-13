@@ -3,7 +3,16 @@ import { ApplyForJobService, getUserJobApplicationService, LoginService, ReadUse
 
 export const UserRegistration=async (req,res)=>{
     let result=await RegistrationService(req)
-    return res.status(200).json(result)
+    if(result['status'] === true){
+        //Cookie Set
+        let cookieOption={expires: new Date(Date.now()+48*60*60*1000),httpOnly: false};
+        //Set Cookie With Response
+        res.cookie('user_token',result['token'],cookieOption)
+        return res.status(200).json(result)
+
+    }else{
+        return res.status(200).json(result)
+    }
 }
 
 export const UserLogin=async (req,res)=>{
@@ -21,6 +30,11 @@ export const UserLogin=async (req,res)=>{
 }
 
 
+export const UserLogout=async (req,res)=>{
+    let cookieOption={expires: new Date(0),httpOnly: false};
+    res.cookie('user_token',"",cookieOption)
+    return res.status(200).json({status:"success", message:"User Logout Success"})
+}
 
 export const ReadUserData=async (req,res)=>{
     let result=await ReadUserDataService(req)

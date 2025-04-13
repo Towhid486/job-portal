@@ -9,21 +9,29 @@ import RecruiterDashBoardPage from './pages/RecruiterDashboardPage';
 import AddJob from './components/Recruiter-Dashboards/AddJob';
 import ManageJobs from './components/Recruiter-Dashboards/ManageJobs';
 import ViewApplications from './components/Recruiter-Dashboards/ViewApplications';
+import UserLogin from './components/Authorization/User/UserLogin';
 const App = () => {
-  const {showRecruiterLogin} = useContext(AppContext)
+  const {showRecruiterLogin, showUserLogin, companyToken} = useContext(AppContext)
   return (
       <BrowserRouter>
         {showRecruiterLogin && <RecruiterLogin/>}
+        {showUserLogin && <UserLogin/>}
         <Routes>
           <Route path='/' element={<HomePage/>}/>
           <Route path='/apply-job/:id' element={<ApplyJobPage/>}/>
           <Route path='/applications' element={<ApplicationsPage/>}/>
           <Route path='/dashboard' element={<RecruiterDashBoardPage/>}>
             {/* Redirect "/dashboard" to "/dashboard/view-applications" */}
-            <Route index element={<Navigate to="/dashboard/view-applications" replace />} />
-            <Route path='add-job' element={<AddJob/>}/>
-            <Route path='manage-jobs' element={<ManageJobs/>}/>
-            <Route path='view-applications' element={<ViewApplications/>}/>
+              {
+                companyToken ? 
+                  <>
+                    <Route index element={<Navigate to="/dashboard/manage-jobs" replace />} />
+                    <Route path='add-job' element={<AddJob/>}/>
+                    <Route path='manage-jobs' element={<ManageJobs/>}/>
+                    <Route path='view-applications' element={<ViewApplications/>}/>
+                  </> : null
+              }
+            
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,26 +1,37 @@
 import jobApplicationModel from '../models/JobApplicationModel.js';
 import jobModel from '../models/JobModel.js';
 import { EncodeToken } from '../utility/TokenHelper.js';
-import userModel from './../models/UserModel.js';
+import bcrypt from 'bcrypt'
 import { v2 as cloudinary } from 'cloudinary'
+import userModel from './../models/UserModel.js';
 
 
-export const RegistrationService = async (req)=>{
-    let email = req.body.email;
-    let check = await userModel.findOne({ email: email})
-    if(check){
-        return {status:false, message:"Email already exists"}
-    }
-    try{
-        let reqBody = req.body;
-        let data = await userModel.create(reqBody)
-        return {status:true, message:"Registration success", data:data}
 
+export const RegistrationService = async (req) => {
+    const { name, email, password } = req.body;
+    const imageFile = req.file;
+
+    let userExist = await userModel.findOne({ email: email });
+    if (userExist) {
+        return { status: false, message: "Email already exists" };
     }
-    catch(e){
-        return {status:false, message:e.message}
+    try {
+        // Image upload to cloudinary
+        const imageUpload = await cloudinary.uploader.upload(imageFile.path);
+        // Create user in DB
+        let data = await userModel.create({
+            name,
+            email,
+            password,
+            image: imageUpload.secure_url,
+        });
+        // Generate Token
+        let token = EncodeToken(data.email, data._id);
+        return { status: true, message: "Registration success", token: token, data: data };
+    } catch (e) {
+        return { status: false, message: e.toString() };
     }
-}
+};
 
 export const LoginService = async (req)=>{
     try{
@@ -32,7 +43,7 @@ export const LoginService = async (req)=>{
             return {status:true, message:"Login success", token:token, data:data}
         }
         else{
-            return {status:true, message:"Invalid Email or Password"}
+            return {status:false, message:"Invalid Email or Password"}
         }
     }
     catch(e){

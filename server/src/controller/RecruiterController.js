@@ -1,4 +1,4 @@
-import { AddNewJobService, ChangeJobVisibilityService, GetJobApplicantsService, GetRecruiterPostedJobService, ReadRecruiterDataService, RecruiterLoginService, RecruiterRegistrationService } from './../service/RecruiterService.js';
+import { AddNewJobService, ChangeJobVisibilityService, GetRecruiterJobApplicantsService, GetRecruiterPostedJobService, ChangeJobApplicationsStatusService, ReadRecruiterDataService, RecruiterLoginService, RecruiterRegistrationService } from './../service/RecruiterService.js';
 
 export const RecruiterRegistration=async (req,res)=>{
     let result=await RecruiterRegistrationService(req)
@@ -29,7 +29,7 @@ export const RecruiterLogin=async (req,res)=>{
 }
 
 export const RecruiterLogout=async (req,res)=>{
-    let cookieOption={expires: new Date(Date.now()-48*60*60*1000),httpOnly: false};
+    let cookieOption={expires: new Date(0),httpOnly: false};
     res.cookie('recruiter_token',"",cookieOption)
     return res.status(200).json({status:"success", message:"Recruiter Logout Success"})
 }
@@ -44,7 +44,7 @@ export const AddNewJob=async (req,res)=>{
 }
 
 export const GetJobApplicants=async (req,res)=>{
-    let result=await GetJobApplicantsService(req)
+    let result=await GetRecruiterJobApplicantsService(req)
     return res.status(200).json(result)
 }
 

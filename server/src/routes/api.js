@@ -7,8 +7,9 @@ import upload from '../config/multer.js';
 const router = express.Router();
 
 // User login
-router.post('/registration', UserController.UserRegistration)
+router.post('/registration',upload.single("image"),UserController.UserRegistration)
 router.post('/login', UserController.UserLogin)
+router.post('/logout', UserController.UserLogout)
 router.get('/user-data',AuthVerification,UserController.ReadUserData)
 
 // User Job apply, job applied and update resume

@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt'
 import { v2 as cloudinary } from 'cloudinary'
 import { EncodeToken } from "../utility/TokenHelper.js";
 import jobModel from "../models/JobModel.js";
+import mongoose from "mongoose";
+import jobApplicationModel from "../models/JobApplicationModel.js";
 
 export const RecruiterRegistrationService = async (req)=>{
     const {name,email,password} = req.body;
@@ -28,7 +30,7 @@ export const RecruiterRegistrationService = async (req)=>{
 
     }
     catch(e){
-        return {status:false, message:e}
+        return {status:false, message:e.message}
     }
 }
 
@@ -61,7 +63,7 @@ export const ReadRecruiterDataService = async (req)=>{
         return {status:true, message:`${data.name} found success`, data:data}
     }
     catch(e){
-        return {status:false, message:e}
+        return {status:false, message:e.message}
     }
 }
 
@@ -75,41 +77,83 @@ export const AddNewJobService = async (req)=>{
        return {status:true, message:"New job posted", data:data}
     }
     catch(e){
-        return {status:false, message:e}
+        return {status:false, message:e.message}
     }
 }
 
-export const GetJobApplicantsService = async (req)=>{
+export const GetRecruiterJobApplicantsService = async (req)=>{
+    // try{
+    //     let recruiterId = new mongoose.Types.ObjectId(req.headers["user_id"]);
+    //     const matchRecruiter = {$match: { recruiterId: recruiterId }}
+    //     // Lookup and unwind user
+    //     const JoinWithUser = {$lookup: {from: 'users', localField: 'userId', foreignField: '_id', as: 'user'} };
+    //     // const unwindUser = { $unwind: '$user' }; 
+
+    //     const JoinWithJob = {$lookup: {from: 'jobs', localField: 'jobId', foreignField: '_id', as: 'job'} };
+    //     // const unwindJob = { $unwind: '$job' };
+
+    //     // Optional project stage
+    //     const projectFields = {
+    //         $project: { _id: 1, user: {name: 1,image: 1,resume: 1}, job: {title: 1,location: 1,category: 1,level: 1,salary: 1 } }
+    //     };
+
+    //     // Final aggregation
+    //     const applications = await jobApplicationModel.aggregate([
+    //         matchRecruiter,
+    //         JoinWithUser,
+    //         // unwindUser,
+    //         JoinWithJob,
+    //         // unwindJob,
+    //         projectFields
+    //     ]);
+    //     return { status: true, message:"Applications Found", applications };
+
+    // }
+
     try{
+        
+        let recruiterId = req.headers['user_id']
+        const applications = await jobApplicationModel.find({recruiterId:recruiterId})
+        .populate('userId', 'name image resume')
+        .populate('jobId', 'title location category level salary')
+        .exec()
+        return {status:true, applications}
 
     }
     catch(e){
-        return {status:false, message:e}
+        return {status:false, message:e.message}
     }
 }
 
 export const GetRecruiterPostedJobService = async (req)=>{
     try{
-        let recruiterId = req.headers['user_id']
-        const data = await jobModel.find({recruiterId:recruiterId})
-        if(!data){
-            return {status:false, message:"No job has been posted"}
-        }
-        return {status:true, message:"Recruiter Posted job found", data:data}
+        let recruiterId = new mongoose.Types.ObjectId(req.headers["user_id"]);
+        let matchRecruiter = {$match: { recruiterId: recruiterId }}
 
+        let joinWithJobApplications = {$lookup: {from: "jobapplications",localField: "_id", foreignField: "jobId",as: "applicants"}}
+
+        let countApplicants = {$addFields: {applicants: { $size: "$applicants" }}}
+
+        const jobsData = await jobModel.aggregate([
+            matchRecruiter, joinWithJobApplications,countApplicants
+        ]);
+        return { status: true, data:jobsData };
     }
     catch(e){
-        return {status:false, message:e}
+        return {status:false, message:e.message}
     }
 }
 
 export const ChangeJobApplicationsStatusService = async (req)=>{
     try{
        
+        const {id, status} = req.body
+        await jobApplicationModel.updateOne({_id:id}, {status:status})
 
+        return { status: true, message: "Applications Status Changed"};
     }
     catch(e){
-        return {status:false, message:e}
+        return {status:false, message:e.message}
     }
 }
 
