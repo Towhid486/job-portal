@@ -16,7 +16,11 @@ await connectCloudinary()
 
 //Middleware
 app.use(cors({
-  origin: "https://job-portal-client-towhid.vercel.app",
+  origin: [
+    "https://stackjobs.vercel.app/",
+    "https://job-portal-client-towhid.vercel.app",
+    "http://localhost:5173"
+  ],
   methods: ["GET", "POST", "PUT", "PATCH"],
   credentials: true,
   // allowedHeaders: ["Content-Type", "Authorization","token"],
