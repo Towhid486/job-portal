@@ -66,7 +66,7 @@ export const AppContextProvider = (props) =>{
             const userToken =  localStorage.getItem('user_token')
             const {data} = await axios.get(`${backendURL}/applications`, {headers:{token:userToken}})
             if(data?.status){
-                setUserApplications(data?.applications)
+                setUserApplications(data?.applications.reverse())
             }else{
                 toast.error(data?.message)
             }
