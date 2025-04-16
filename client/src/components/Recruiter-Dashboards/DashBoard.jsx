@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { assets } from '../../assets/assets';
 import { AppContext } from '../../context/AppContext';
@@ -8,6 +8,7 @@ import Footer from '../Footer';
 const DashBoard = () => {
     const {backendURL, setShowRecruiterLogin,companyToken, setCompanyToken, companyData} = useContext(AppContext)
     const navigate = useNavigate()
+    const [showOption, setShowOption] = useState(false)
 
     const logout = async () => {
         await axios.post(`${backendURL}/recruiter-logout`,{}, {withCredentials: true})
@@ -29,8 +30,8 @@ const DashBoard = () => {
                                 <Link to={'/'}>Jobs</Link>
                                 <p className='max-sm:hidden'>Welcome, {companyData?.name}</p>
                                 <div className='relative group'>
-                                    <img className='w-8 border border-gray-200 rounded-full' src={companyData?.image} alt="" />
-                                    <div className='absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-12'>
+                                    <img onClick={ (e) => setShowOption(prev => !prev)} className='w-8 border border-gray-200 rounded-full cursor-pointer' src={companyData?.image} alt="" />
+                                    <div className={`${showOption?"":"hidden"} absolute top-0 right-0 z-10 text-black rounded mt-12`}>
                                         <ul className='list-none m-0 p-2 bg-light rounded-md border border-gray-200 text-sm'>
                                             <li onClick={(e)=>logout()} className='py-1 px-2 bg-black text-white cursor-pointer pr-10'>Logout</li>
                                         </ul>

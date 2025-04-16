@@ -3,7 +3,7 @@ import Quill from 'quill'
 import { JobCategories, JobLocations } from '../../assets/assets';
 import { AppContext } from './../../context/AppContext';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 const AddJob = () => {
 
     const {backendURL, companyToken} = useContext(AppContext)

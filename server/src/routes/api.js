@@ -7,6 +7,7 @@ import upload from '../config/multer.js';
 const router = express.Router();
 
 // User login
+router.post('/google-login',UserController.FirebaseLogin)
 router.post('/registration',upload.single("image"),UserController.UserRegistration)
 router.post('/login', UserController.UserLogin)
 router.post('/logout', UserController.UserLogout)
@@ -14,11 +15,13 @@ router.get('/user-data',AuthVerification,UserController.ReadUserData)
 
 // User Job apply, job applied and update resume
 router.post('/apply-job',AuthVerification,UserController.applyForJob)
+router.get('/isApplied/:jobId',AuthVerification,UserController.alreadyApplied)
 router.get('/applications',AuthVerification,UserController.getUserJobApplication)
 router.post('/update-resume',AuthVerification,upload.single("resume"),UserController.UpdateUserResume)
 
 
 // Recruiter login
+router.post('/recruiter-google-login',RecruiterController.RecruiterFirebaseLogin)
 router.post('/recruiter-register',upload.single("image"),RecruiterController.RecruiterRegistration)
 router.post('/recruiter-login',RecruiterController.RecruiterLogin)
 router.post('/recruiter-logout',RecruiterController.RecruiterLogout)

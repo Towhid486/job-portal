@@ -3,7 +3,8 @@ import { assets } from '../../../assets/assets';
 import { AppContext } from '../../../context/AppContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
+import GoogleAuth from '../firebase/googleAuth';
 
 const UserLogin = () => {
     const navigate = useNavigate()
@@ -128,7 +129,7 @@ const UserLogin = () => {
                 }
                     
                 <img onClick={(e)=> setShowUserLogin(false)} className='absolute top-5 right-5 cursor-pointer' src={assets.cross_icon} alt="" />
-
+                <GoogleAuth/>
             </form>
         </div>
     );

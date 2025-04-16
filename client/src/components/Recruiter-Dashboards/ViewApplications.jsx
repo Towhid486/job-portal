@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { assets, viewApplicationsPageData } from '../../assets/assets';
 import { AppContext } from '../../context/AppContext';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { useEffect } from 'react';
 

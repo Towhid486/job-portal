@@ -3,7 +3,8 @@ import { assets } from '../../../assets/assets';
 import { AppContext } from '../../../context/AppContext';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
+import RecruiterGoogleAuth from '../firebase/recruiterGoogleAuth';
 
 const RecruiterLogin = () => {
     const navigate = useNavigate()
@@ -128,7 +129,7 @@ const RecruiterLogin = () => {
                 }
                     
                 <img onClick={(e)=> setShowRecruiterLogin(false)} className='absolute top-5 right-5 cursor-pointer' src={assets.cross_icon} alt="" />
-
+                <RecruiterGoogleAuth/>
             </form>
         </div>
     );

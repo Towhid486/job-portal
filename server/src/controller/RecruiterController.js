@@ -1,4 +1,18 @@
-import { AddNewJobService, ChangeJobVisibilityService, GetRecruiterJobApplicantsService, GetRecruiterPostedJobService, ChangeJobApplicationsStatusService, ReadRecruiterDataService, RecruiterLoginService, RecruiterRegistrationService } from './../service/RecruiterService.js';
+import { RecruiterFirebaseLoginService, AddNewJobService, ChangeJobVisibilityService, GetRecruiterJobApplicantsService, GetRecruiterPostedJobService, ChangeJobApplicationsStatusService, ReadRecruiterDataService, RecruiterLoginService, RecruiterRegistrationService } from './../service/RecruiterService.js';
+
+export const RecruiterFirebaseLogin = async (req,res) =>{
+    let result=await RecruiterFirebaseLoginService(req)
+    if(result['status'] === true){
+        //Cookie Set
+        let cookieOption={expires: new Date(Date.now()+48*60*60*1000),httpOnly: false};
+        //Set Cookie With Response
+        res.cookie('recruiter_token',result['token'],cookieOption)
+        return res.status(200).json(result)
+
+    }else{
+        return res.status(200).json(result)
+    }
+}
 
 export const RecruiterRegistration=async (req,res)=>{
     let result=await RecruiterRegistrationService(req)

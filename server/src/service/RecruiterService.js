@@ -5,6 +5,29 @@ import { EncodeToken } from "../utility/TokenHelper.js";
 import jobModel from "../models/JobModel.js";
 import mongoose from "mongoose";
 import jobApplicationModel from "../models/JobApplicationModel.js";
+import recruiterFirebaseModel from "../models/firebase_auth/RecruiterAuthModel.js";
+
+export const RecruiterFirebaseLoginService = async (req) => {
+    const { name, email, image } = req.body
+    let RecruiterExist = await recruiterModel.findOne({ email: email });
+    if (RecruiterExist) {
+        let token = EncodeToken(RecruiterExist.email, RecruiterExist._id);
+        return { status: true, message: "Firebase Login success", token: token, data: RecruiterExist };
+    }
+    try {
+        // Create user in DB
+        let data = await recruiterFirebaseModel.create({
+            name,
+            email,
+            image
+        });
+        // Generate Token
+        let token = EncodeToken(data.email, data._id);
+        return { status: true, message: "Firebase Registration success", token: token, data: data };
+    } catch (e) {
+        return { status: false, message: e.toString() };
+    }
+};
 
 export const RecruiterRegistrationService = async (req)=>{
     const {name,email,password} = req.body;

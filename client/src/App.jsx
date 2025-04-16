@@ -10,6 +10,7 @@ import AddJob from './components/Recruiter-Dashboards/AddJob';
 import ManageJobs from './components/Recruiter-Dashboards/ManageJobs';
 import ViewApplications from './components/Recruiter-Dashboards/ViewApplications';
 import UserLogin from './components/Authorization/User/UserLogin';
+import GoogleAuth from './components/Authorization/firebase/googleAuth';
 const App = () => {
   const {showRecruiterLogin, showUserLogin, companyToken} = useContext(AppContext)
   return (
@@ -17,6 +18,7 @@ const App = () => {
         {showRecruiterLogin && <RecruiterLogin/>}
         {showUserLogin && <UserLogin/>}
         <Routes>
+          <Route path='/auth' element={<GoogleAuth/>}/>
           <Route path='/' element={<HomePage/>}/>
           <Route path='/apply-job/:id' element={<ApplyJobPage/>}/>
           <Route path='/applications' element={<ApplicationsPage/>}/>

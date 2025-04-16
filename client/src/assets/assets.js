@@ -1,5 +1,6 @@
 import logo from "./logo.png";
 import pdf from "./pdf.svg";
+import google from "./google.png"
 import view_icon from "./view_icon.png"
 import search_icon from "./search_icon.svg";
 import company_icon from "./company_icon.svg";
@@ -38,6 +39,7 @@ import amazon_logo from './amazon_logo.png'
 
 export const assets = {
     logo,
+    google,
     pdf,
     view_icon,
     search_icon,

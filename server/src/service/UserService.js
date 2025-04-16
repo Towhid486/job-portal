@@ -4,7 +4,32 @@ import { EncodeToken } from '../utility/TokenHelper.js';
 import bcrypt from 'bcrypt'
 import { v2 as cloudinary } from 'cloudinary'
 import userModel from './../models/UserModel.js';
+import userFirebaseModel from '../models/firebase_auth/UserAuthModel.js';
 
+
+
+export const FirebaseLoginService = async (req) => {
+    const { name, email, image } = req.body
+
+    let UserExist = await userModel.findOne({ email: email });
+    if (UserExist) {
+        let token = EncodeToken(UserExist.email, UserExist._id);
+        return { status: true, message: "Firebase Login success", token: token, data: UserExist };
+    }
+    try {
+        // Create user in DB
+        let data = await userFirebaseModel.create({
+            name,
+            email,
+            image
+        });
+        // Generate Token
+        let token = EncodeToken(data.email, data._id);
+        return { status: true, message: "Firebase Registration success", token: token, data: data };
+    } catch (e) {
+        return { status: false, message: e.toString() };
+    }
+};
 
 
 export const RegistrationService = async (req) => {
@@ -59,6 +84,22 @@ export const ReadUserDataService = async (req)=>{
             return{status:false, message:"User not found"}
         }
         return {status:true, data:data}
+    }
+    catch(e){
+        return {status:false, message:e.message}
+    }
+}
+
+export const AlreadyAppliedJobService = async (req)=>{
+    try{
+       let userId = req.headers.user_id;
+       let {jobId} = req.params;
+       const data = await jobApplicationModel.findOne({userId:userId, jobId:jobId})
+        if(data){
+            return{status:true, message:"Already Applied"}
+        }else{
+           return {status:false, message:"Apply Now"} 
+        }
     }
     catch(e){
         return {status:false, message:e.message}

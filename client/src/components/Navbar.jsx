@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { assets } from '../assets/assets';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
@@ -8,6 +8,8 @@ const NavBar = () => {
 
     const {backendURL, setShowRecruiterLogin,companyToken, setCompanyToken, companyData, setShowUserLogin, userToken, setUserToken, userData } = useContext(AppContext)
     const navigate = useNavigate()
+    const [showOption, setShowOption] = useState(false)
+
     const logout = async () => {
         // Remove from cookies 
         await axios.post(`${backendURL}/logout`,{}, {withCredentials: true})
@@ -32,16 +34,16 @@ const NavBar = () => {
                                 <p>|</p>
                                 <p className='max-sm:hidden'>Hi, {userData?.name}</p>
                                 {/* <img className='w-8 border border-gray-200 rounded-full' src={userData?.image} alt="" /> */}
-                                <div className='relative group'>
+                                <div className='relative'>
                                     {!userData?.image ? (
-                                        <img className='w-8 border border-gray-200 rounded-full' src={assets.person_icon} alt="" />
+                                        <img onClick={ (e) => setShowOption(prev => !prev)}  className='w-8 border border-gray-200 rounded-full cursor-pointer' src={assets.person_icon} alt="" />
                                     )
                                     : (
-                                        <img className='w-8 border border-gray-200 rounded-full' src={userData?.image} alt="" />
+                                        <img onClick={ (e) => setShowOption(prev => !prev)}  className='w-8 border border-gray-200 rounded-full cursor-pointer' src={userData?.image} alt="" />
 
                                     )
                                     }
-                                    <div className='absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-12'>
+                                    <div className={`${showOption?"":"hidden"} absolute top-0 right-0 text-black rounded mt-12`}>
                                         <ul className='list-none m-0 p-2 bg-white rounded-md border border-gray-200 text-sm'>
                                             <li><Link className='block sm:hidden py-1 px-2 cursor-pointer pr-10 rounded-md border border-gray-200' to={'/applications'}>Applied</Link></li>
                                             <li onClick={(e)=>logout()} className='py-1 px-2 cursor-pointer pr-10 bg-black text-white rounded-md border border-gray-200 mt-2'>Logout</li>
@@ -55,9 +57,9 @@ const NavBar = () => {
                                 <Link to={'/dashboard'}>Dashboard</Link>
                                 <p>|</p>
                                 <p className='max-sm:hidden'>Hi, {companyData?.name}</p>
-                                <div className='relative group'>
-                                    <img className='w-8 border border-gray-200 rounded-full' src={companyData?.image} alt="" />
-                                    <div className='absolute hidden group-hover:block top-0 right-0 z-10 text-black rounded pt-12'>
+                                <div className='relative'>
+                                    <img onClick={ (e) => setShowOption(prev => !prev)} className='w-8 border border-gray-200 rounded-full cursor-pointer' src={companyData?.image} alt="" />
+                                    <div className={`${showOption?"":"hidden"} absolute top-0 right-0 z-10 text-black rounded mt-12`}>
                                         <ul className='list-none m-0 p-2 bg-light rounded-md border border-gray-200 text-sm'>
                                             <li onClick={(e)=>logout()} className='py-1 px-2 bg-black text-white cursor-pointer pr-10'>Logout</li>
                                         </ul>

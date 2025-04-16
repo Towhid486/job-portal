@@ -5,14 +5,18 @@ import { assets } from '../../assets/assets';
 import kconvert from 'k-convert';
 import moment from 'moment'
 import JobCard from './../home/jobCard';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import axios  from 'axios';
 
 const ApplyJob = () => {
     const {id} = useParams()
+    const userToken = localStorage.getItem('user_token');
+    const companyToken = localStorage.getItem('recruiter_token')
     const navigate = useNavigate()
     const [jobData, setJobData] = useState(null)
-    const {jobs, backendURL, userToken, userData, userApplications, fetchUserApplications} = useContext(AppContext)
+    const [ifApplied, setIfApplied] = useState()
+    const {jobs, backendURL, userData} = useContext(AppContext)
+
 
     const fetchJob = async () => {
         // const data = jobs.filter((job) => job._id === id) //----Get Static/frontend details
@@ -23,6 +27,15 @@ const ApplyJob = () => {
             }else{
                 toast.error(data?.message)
             }
+        }catch(error){
+            toast.error(error.message)
+        }
+    }
+
+    const isApplied = async () => {
+        try{
+            const {data} = await axios.get(`${backendURL}/isApplied/${id}`, {headers:{token:userToken}})
+            setIfApplied(data?.status)
         }catch(error){
             toast.error(error.message)
         }
@@ -39,6 +52,7 @@ const ApplyJob = () => {
             const {data} = await axios.post(`${backendURL}/apply-job`, {jobId:jobData?._id}, {headers:{token:userToken}})
             if(data?.status){
                 toast.success(data?.message)
+                await isApplied()
             }else{
                 toast.error(data?.message)
             }
@@ -50,6 +64,9 @@ const ApplyJob = () => {
 
     useEffect(()=>{
             fetchJob()
+            if(userToken){
+                isApplied()   
+            }
     },[id])
 
     return jobData ? (
@@ -84,7 +101,15 @@ const ApplyJob = () => {
                     </div>
 
                     <div className='flex flex-col justify-center text-end text-sm max-md:mx-auto max-md:text-center'>
-                        <button onClick={applyHandler} className='bg-blue-600 p-2.5 px-10 text-white rounded'>Apply Now</button>
+                        {
+                            ifApplied ?
+                                <button className='bg-black p-2.5 px-10 text-white rounded'>Already Applied</button>
+                            : companyToken ? "" 
+                            : <button onClick={applyHandler} className='bg-blue-600 p-2.5 px-10 text-white rounded'>Apply Now</button>
+                        }
+                        
+                        
+                        
                         <p className='mt-1 text-gray-600'>Posted {moment(jobData.date).fromNow()}</p>
                     </div>
                 </div>

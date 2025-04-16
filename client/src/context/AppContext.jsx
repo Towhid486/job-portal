@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import { jobsData } from "../assets/assets";
-import { toast } from 'react-toastify';
+// import { jobsData } from "../assets/assets";
+import { toast } from 'react-hot-toast';
 import axios from "axios";
 
 export const AppContext = createContext()

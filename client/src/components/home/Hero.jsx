@@ -1,8 +1,7 @@
 import React, { useContext, useRef } from 'react';
 import { assets } from '../../assets/assets';
 import { AppContext } from '../../context/AppContext';
-import JobList from './JobList';
-import { useEffect } from 'react';
+// import JobList from './JobList';
 
 const Hero = () => {
 

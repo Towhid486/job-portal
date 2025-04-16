@@ -1,5 +1,19 @@
-import { ApplyForJobService, getUserJobApplicationService, LoginService, ReadUserDataService, RegistrationService, UpdateUserResumeService } from "../service/UserService.js";
+import { FirebaseLoginService, ApplyForJobService, AlreadyAppliedJobService, getUserJobApplicationService, LoginService, ReadUserDataService, RegistrationService, UpdateUserResumeService } from "../service/UserService.js";
 
+
+export const FirebaseLogin = async (req,res) =>{
+    let result=await FirebaseLoginService(req)
+    if(result['status'] === true){
+        //Cookie Set
+        let cookieOption={expires: new Date(Date.now()+48*60*60*1000),httpOnly: false};
+        //Set Cookie With Response
+        res.cookie('user_token',result['token'],cookieOption)
+        return res.status(200).json(result)
+
+    }else{
+        return res.status(200).json(result)
+    }
+}
 
 export const UserRegistration=async (req,res)=>{
     let result=await RegistrationService(req)
@@ -45,6 +59,12 @@ export const applyForJob=async (req,res)=>{
     let result=await ApplyForJobService(req)
     return res.status(200).json(result)
 }
+
+export const alreadyApplied=async (req,res)=>{
+    let result=await AlreadyAppliedJobService(req)
+    return res.status(200).json(result)
+}
+
 
 export const getUserJobApplication=async (req,res)=>{
     let result=await getUserJobApplicationService(req)

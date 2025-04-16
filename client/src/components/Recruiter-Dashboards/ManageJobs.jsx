@@ -3,7 +3,7 @@ import { manageJobsData } from '../../assets/assets';
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from './../../context/AppContext';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
 const ManageJobs = () => {

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { assets } from './../../assets/assets';
 import moment from 'moment'
 import { AppContext } from './../../context/AppContext';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import axios from 'axios';
 const Applications = () => {
     const {setShowUserLogin, backendURL, userData, userApplications, fetchUserApplications, fetchUserData} = useContext(AppContext)
