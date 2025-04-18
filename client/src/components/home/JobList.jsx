@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 import { assets, JobCategories, JobLocations} from '../../assets/assets';
 import JobCard from './jobCard';
+import axios from 'axios';
 
 const JobList = () => {
 
@@ -10,12 +11,31 @@ const JobList = () => {
     const [showFilter, setShowFilter] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
 
+    const [apiLocation, setApiLocation] = useState([])
+
     const [selectedCategory, setSelectedCategory] = useState("")
     const [selectedLocation, setSelectedLocation] = useState([])
     const [filteredJobs, setFilteredJobs] = useState(jobs)
+    
+    const totalVacancies = filteredJobs.reduce((acc, job) => acc + Number(job.vacancy || 0), 0);
 
     // Inside the component
     const jobListRef = useRef(null);
+
+    const locationApi = async () =>{
+        try {
+            const { data } = await axios.get('https://bdapi.vercel.app/api/v.1/district');
+            if (data.success) {
+                const districtNames = data.data.map(item => item.name); // extract only names
+                setApiLocation(districtNames);
+            } else {
+                toast.error("Locations Not Found. Error in API");
+            }
+        } catch (err) {
+            toast.error("Failed to fetch districts");
+            console.error(err);
+        }
+    }
 
     const handleCategoryChange = (category) => {
         setSelectedCategory(category);
@@ -35,6 +55,8 @@ const JobList = () => {
     }
 
     useEffect(()=>{
+
+        locationApi()
 
         const matchesCategory = (job) => selectedCategory === "" || selectedCategory === job.category;
 
@@ -125,7 +147,7 @@ const JobList = () => {
                     <h4 className='font-medium text-lg py-4 pt-14'>Search by Location</h4>
                     <ul className='space-y-4 text-gray-600'>
                         {
-                                JobLocations.map((location,index)=>(
+                                apiLocation.map((location,index)=>(
                                 <li className='flex gap-3 items-center' key={index}>
                                     <input className='scale-125 cursor-pointer' 
                                         type="checkbox" 
@@ -146,11 +168,20 @@ const JobList = () => {
                 <h3 className='font-medium text-3xl py-2' id='job-list'>Most Recent jobs</h3>
                 <p className='mb-8'>Get your desired job from top companies</p>
                 {
-                    filteredJobs.length > 0 ?(
-                        <h4 className='font-medium text-2xl pb-8 text-center' id='job-list'> {filteredJobs.length} Jobs Found</h4>
-                    )
-                    :
+                    filteredJobs?.length===0 ?
                     (
+                        <div className='flex pt-12 mt-10 items-center justify-center'>
+                            <div className='w-10 h-10 border-6 border-gray-300 border-t-blue-400 rounded-full animate-spin'></div>
+                        </div>
+                       
+                    ):filteredJobs.length > 0 ?(
+                        <div>
+                            <h4 className='font-medium text-2xl pb-2 text-center' id='job-list'> {filteredJobs.length} Jobs Found</h4>
+                             <h4 className='font-medium text-lg pb-4 text-center' id='job-list'> {totalVacancies}+ Vacancy</h4>
+                        </div>
+                    )
+                    : 
+                     (
                         <h4 className='font-extra-medium text-2xl pb-8 text-blue-400 pt-10' id='job-list'>🔍 No jobs match your filters. Try adjusting your search criteria! 🥲</h4>
                     )
                 }

@@ -4,9 +4,9 @@ import { AppContext } from '../../context/AppContext';
 import { assets } from '../../assets/assets';
 import kconvert from 'k-convert';
 import moment from 'moment'
-import JobCard from './../home/jobCard';
 import { toast } from 'react-hot-toast';
 import axios  from 'axios';
+import SidebarJobCard from './sideJobCard';
 
 const ApplyJob = () => {
     const {id} = useParams()
@@ -97,15 +97,16 @@ const ApplyJob = () => {
                                     CTC: {kconvert.convertTo(jobData.salary)}
                                 </span>
                             </div>
+                            
                         </div>
                     </div>
 
                     <div className='flex flex-col justify-center text-end text-sm max-md:mx-auto max-md:text-center'>
                         {
                             ifApplied ?
-                                <button className='bg-black p-2.5 px-10 text-white rounded'>Already Applied</button>
+                                <button className='bg-black hover:bg-gray-600 transition-transform p-2.5 px-10 text-white rounded'>Already Applied</button>
                             : companyToken ? "" 
-                            : <button onClick={applyHandler} className='bg-blue-600 p-2.5 px-10 text-white rounded'>Apply Now</button>
+                            : <button onClick={applyHandler} className='bg-blue-600 hover:bg-blue-800 transition-transform p-2.5 px-10 text-white rounded'>Apply Now</button>
                         }
                         
                         
@@ -117,17 +118,31 @@ const ApplyJob = () => {
 
                 <div className='flex flex-col lg:flex-row justify-between items-start'>
                     {/* Left Section Job Description */}
+                    
                     <div className='w-full lg:w-2/3'>
+                        <div className='flex justify-between max-sm:my-4'>
+                            <span className='flex py-4 text-lg max-sm:text-sm'>
+                                <p>💼 Vacancy:</p><strong>{jobData.vacancy}</strong>
+                            </span>  
+                            <span className='flex py-4 text-lg max-sm:text-sm'>
+                                <p>🕑 Deadline: </p><strong>{new Date(jobData.deadline).toLocaleDateString('en-US', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric',
+                                })}</strong>
+                            </span>  
+                        </div>
+                        
                         <h2 className='font-bold text-2xl mb-4'>Job description</h2>
                         <div className='rich-text' dangerouslySetInnerHTML={{__html:jobData.description}}></div>
-                        <button onClick={applyHandler} className='bg-blue-600 p-2.5 px-10 text-white rounded mt-10'>Apply Now</button>
+                        <button onClick={applyHandler} className='bg-blue-600 hover:bg-blue-800 transition-transform p-2.5 px-10 text-white rounded mt-10'>Apply Now</button>
                     </div>
                     {/* Right Section More Jobs */}
                     <div className='w-full lg:w-1/3 mt-8 lg:mt-0 lg:ml-8 space-y-5'>
                         <h2>More jobs from {jobData.recruiterId.name}</h2>
                         {jobs.filter((job)=> job._id !==jobData._id && job.recruiterId._id === jobData.recruiterId._id)
                         .filter((job)=> true).slice(0,4)
-                            .map((job,index)=> <JobCard key={index} index={index} job={job}/>)}
+                            .map((job,index)=> <SidebarJobCard key={index} index={index} job={job}/>)}
                     </div>
                 </div>
 

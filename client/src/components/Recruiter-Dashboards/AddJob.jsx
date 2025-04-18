@@ -4,6 +4,7 @@ import { JobCategories, JobLocations } from '../../assets/assets';
 import { AppContext } from './../../context/AppContext';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+
 const AddJob = () => {
 
     const {backendURL, companyToken} = useContext(AppContext)
@@ -13,17 +14,20 @@ const AddJob = () => {
     const [location, setLocation] = useState('Chittagong')
     const [category, setCategory] = useState('Programming')
     const [level, setLevel] = useState('Beginner level')
+    const [deadline, setDeadline] = useState(null);
     const [salary, setSalary] = useState(0)
+    const [vacancy, setVacancy] = useState(1)
 
     const editorRef = useRef(null)
     const quillRef = useRef(null)
+
 
     const onSubmitHandler = async (e)=>{
         e.preventDefault()
         try{
             const description = quillRef.current.root.innerHTML
             const {data} = await axios.post(`${backendURL}/add-new-job`, 
-                {title,description,location,category,level,salary},
+                {title,description,location,category,level,deadline,vacancy,salary},
                 {headers:{token:companyToken}}
             )
             if(data.status){
@@ -110,10 +114,29 @@ const AddJob = () => {
                     </select>
                 </div>
             </div>
+            <div className='flex flex-col sm:flex-row gap-2 w-full sm:gap-8'>
             <div>
-                <p className='mb-2'>Job Salary</p>
-                <input min={0} className='w-full px-2 py-2 border-2 border-gray-300 rounded sm:w-[120px]' onChange={(e)=> setSalary(e.target.value)} type="number" placeholder='25000' />
+                    <p className='mb-2'>Application Deadline</p>
+                    <input 
+                        type="date" 
+                        className='px-3 py-2 border-2 border-gray-300 rounded'
+                        value={deadline}
+                        onChange={(e) => setDeadline(e.target.value)} 
+                        required
+                    />
+                </div>
             </div>
+            <div className='flex flex-col sm:flex-row gap-2 w-full sm:gap-8'>
+                <div>
+                    <p className='mb-2'>Vacancy</p>
+                    <input min={0} className='w-full px-2 py-2 border-2 border-gray-300 rounded sm:w-[120px]' onChange={(e)=> setVacancy(e.target.value)} type="number" placeholder='01' />
+                </div>
+                <div>
+                    <p className='mb-2'>Salary</p>
+                    <input min={0} className='w-full px-2 py-2 border-2 border-gray-300 rounded sm:w-[120px]' onChange={(e)=> setSalary(e.target.value)} type="number" placeholder='25000' />
+                </div>
+            </div>
+            
 
             <button type='submit' className='w-28 py-3 mt-4 bg-black text-white rounded'>ADD</button>
         </form>

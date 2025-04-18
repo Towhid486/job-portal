@@ -4,7 +4,9 @@ const jobSchema = new mongoose.Schema({
     description: {type:String, required:true},
     location: {type:String, required:true},
     category: {type:String, required:true},
-    level: {type:String, default:"Entry Level", required:true},
+    level: {type:String, required:true},
+    deadline: {type:String, required:true},
+    vacancy: {type:String, required:true},
     salary: {type:Number,required:true},
     visible: {type:Boolean, required:true, default:true},
     recruiterId: {type:mongoose.Schema.Types.ObjectId, ref:'recruiter', required:true}, // Reference to Recruiter Collection from RecruiterModel.js

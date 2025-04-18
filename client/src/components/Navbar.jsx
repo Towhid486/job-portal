@@ -22,9 +22,9 @@ const NavBar = () => {
     }
     return (
         <div className='shadow py-4'>
-            <div className='container px-4 2xl:px-20 mx-auto flex justify-between items-center'>
+            <div className='container px-4 max-sm:px-2 2xl:px-20 mx-auto flex justify-between items-center'>
                 <Link to='/'>
-                    <img className='cursor-pointer max-w-40' src={assets.logo}/>
+                    <img className='cursor-pointer max-w-40 max-sm:w-36' src={assets.logo}/>
                 </Link>
                 {
                         userToken? 
@@ -67,9 +67,10 @@ const NavBar = () => {
                                 </div>
                             </div>    
                         :   
-                            <div className='flex gap-4 max-sm:text-xs'>
-                                <button onClick={(e)=> setShowRecruiterLogin(true)} className='text-gray-600'>Recruiter Login</button>
-                                <button onClick={(e)=> setShowUserLogin(true)} className='bg-blue-600 text-white px-6 sm:px-9 py-2 rounded-full'>Login</button>
+                            <div className='flex gap-4 max-sm:gap-1 max-sm:text-[14px] max-sm:font-semibold'>
+                                <Link to={'/'} className='pt-2 max-sm:hidden'>Find Jobs</Link>
+                                <button onClick={(e)=> setShowRecruiterLogin(true)} className='text-gray-600 bg-blue-600 hover:bg-blue-700 text-white px-5 max-sm:px-3 py-2 rounded-full'>Recruiter Login</button>
+                                <button onClick={(e)=> setShowUserLogin(true)} className='bg-black hover:bg-gray-600 text-white px-6 max-sm:px-4 py-2 rounded-full'>Sign In</button>
                             </div>
                 }
                 

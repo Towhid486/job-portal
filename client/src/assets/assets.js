@@ -8,6 +8,7 @@ import microsoft_logo from "./microsoft_logo.svg";
 import walmart_logo from "./walmart_logo.svg";
 import accenture_logo from "./accenture_logo.png";
 import profile_img from "./profile_img.png";
+import man from "./man-ads.png";
 import app_main_img from "./app_main_img.png";
 import cross_icon from './cross_icon.svg';
 import location_icon from './location_icon.svg';
@@ -40,6 +41,7 @@ import amazon_logo from './amazon_logo.png'
 export const assets = {
     logo,
     google,
+    man,
     pdf,
     view_icon,
     search_icon,

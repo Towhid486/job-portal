@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom'
 
-const JobCard = ({job, index}) => {
+const SidebarJobCard = ({job, index}) => {
 
     const navigate = useNavigate()
 
@@ -25,8 +25,8 @@ const JobCard = ({job, index}) => {
             <p className='text-gray-500 text-sm mt-2 hidden max-md:block' dangerouslySetInnerHTML={{__html:job.description.slice(0,160)+"..."}}></p>
             <p className='text-gray-500 text-sm mt-2 max-md:hidden' dangerouslySetInnerHTML={{__html:job.description.slice(0,300)+"..."}}></p>
             <div className='mt-4 flex gap-4 text-sm'>
-                <button onClick={()=> {navigate(`/apply-job/${job?._id}`); scrollTo(0,0)}} className='bg-blue-600  hover:bg-blue-800 text-white px-4 py-2 rounded'>Apply now</button>
-                <button onClick={()=> navigate(`/apply-job/${job?._id}`)} className='border-gray-500 hover:bg-gray-900 hover:text-white text-gray-500 border px-4 py-2 rounded max-sm:hidden'>Read More</button>
+                <button onClick={()=> {navigate(`/apply-job/${job?._id}`); scrollTo(0,0)}} className='bg-blue-600  hover:bg-blue-800 text-white px-4 py-2 rounded'>Read More</button>
+                {/* <button onClick={()=> navigate(`/apply-job/${job?._id}`)} className='border-gray-500 hover:bg-gray-900 hover:text-white text-gray-500 border px-4 py-2 rounded max-sm:hidden'>Apply Now</button> */}
                 <p className='block flex items-center gap-1 sm:ml-auto max-sm:text-[12px]'>🕑 Deadline: <strong>{new Date(job.deadline).toLocaleDateString('en-US', {
                     year: 'numeric',
                     month: 'long',
@@ -38,4 +38,4 @@ const JobCard = ({job, index}) => {
     );
 };
 
-export default JobCard;
+export default SidebarJobCard;
