@@ -9,6 +9,8 @@ const ViewApplications = () => {
     const companyToken = localStorage.getItem('recruiter_token');
     const {backendURL} = useContext(AppContext)
     const [ applicants, setApplicants] = useState(null)
+    const [showOption, setShowOption] = useState(false)
+
 
     //function to get company job applications
     const getCompanyJobApplications = async () =>{
@@ -63,7 +65,7 @@ const ViewApplications = () => {
         ) 
         :  
         (
-        <div className='container mx-auto p-4 max-md:overflow-x-scroll'>
+        <div className='container mx-auto p-4 max-md:overflow-x-scroll pb-20 '>
             <div>
                 <table className='w-full max-w-4xl bg-white border border-gray-200 max-sm:text-sm'>
                     <thead>
@@ -88,12 +90,12 @@ const ViewApplications = () => {
                                                 <img className='w-10 h-10 rounded-full mr-3 max-sm:mr-1' src={applicant?.userId.image} alt="" />
 
                                             )
-                                        }<span>{applicant.userId.name}</span>
+                                        }<span>{applicant?.userId.name}</span>
                                     </td>
-                                    <td className='py-2 px-4 '>{applicant.jobId.title}</td>
-                                    <td className='py-2 px-4 '>{applicant.jobId.location}</td>
+                                    <td className='py-2 px-4 '>{applicant?.jobId.title}</td>
+                                    <td className='py-2 px-4 '>{applicant?.jobId.location}</td>
                                     <td className='py-2 px-4 '>
-                                        <a href={applicant.userId.resume} target='_blank'
+                                        <a href={applicant?.userId.resume} target='_blank'
                                         className='bg-blue-50 text-blue-400 px-2 py-1 rounded inline-flex gap-2 justify-evenly items-center'
                                         >
                                             Resume<img className='py-2 max-w-6' src={assets.view_icon} alt="" />
@@ -101,15 +103,15 @@ const ViewApplications = () => {
                                     </td>
                                     <td className='py-2 px-4 relative text-center'>
                                         {
-                                            applicant.status === "Pending"
-                                            ? <div className='relative inline-block text-left group'>
-                                                <button className='text-gray-500  action-button pb-2'>...</button>
-                                                <div className='z-10 hidden absolute right-0 md:left-0 top-0 mt-2 w-32 bg-white border border-gray-200 rounded shadow group-hover:block'>
-                                                    <button onClick={()=>ChangeJobApplicationsStatus(applicant._id,"Accepted")} className='block w-full text-center px-4  py-2 text-blue-500 hover:bg-gray-100'>Accept</button>
-                                                    <button onClick={()=>ChangeJobApplicationsStatus(applicant._id,"Rejected")} className='block w-full text-center px-4  py-2 text-red-500 hover:bg-gray-100'>Reject</button>
+                                            applicant?.status === "Pending"
+                                            ? <div className='relative'>
+                                                <button onClick={ (e) => setShowOption(prev => !prev)}  className='text-gray-500  action-button pb-2'>...</button>
+                                                <div className={`${showOption?"":"hidden"} absolute top-0 right-0 mt-8 z-10 w-32 bg-white border border-gray-200 rounded shadow group-hover:block`}>
+                                                    <button onClick={()=>ChangeJobApplicationsStatus(applicant?._id,"Accepted")} className='block w-full text-center px-4  py-2 text-blue-500 hover:bg-gray-100'>Accept</button>
+                                                    <button onClick={()=>ChangeJobApplicationsStatus(applicant?._id,"Rejected")} className='block w-full text-center px-4  py-2 text-red-500 hover:bg-gray-100'>Reject</button>
                                                 </div>
                                             </div>
-                                            : <div>{applicant.status}</div>
+                                            : <div>{applicant?.status}</div>
                                         }
                                         
                                     </td>
