@@ -101,3 +101,15 @@ button{
     margin-bottom:8px
   }
   
+
+  @media screen and (min-width: 992px) {
+    .ql-toolbar.ql-snow {
+      width: 700px!important;
+    }
+    .ql-container.ql-snow {
+      width: 700px!important;
+    }
+    .ql-editor.ql-blank {
+      min-height: 300px;
+    }
+  }
