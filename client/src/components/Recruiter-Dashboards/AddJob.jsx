@@ -15,6 +15,7 @@ const AddJob = () => {
     const [category, setCategory] = useState('Programming')
     const [level, setLevel] = useState('Beginner level')
     const [deadline, setDeadline] = useState(null);
+    const [workPlace, setWorkPlace] = useState("");
     const [salary, setSalary] = useState(0)
     const [vacancy, setVacancy] = useState(1)
 
@@ -27,7 +28,7 @@ const AddJob = () => {
         try{
             const description = quillRef.current.root.innerHTML
             const {data} = await axios.post(`${backendURL}/add-new-job`, 
-                {title,description,location,category,level,deadline,vacancy,salary},
+                {title,description,location,category,level,deadline,workPlace,vacancy,salary},
                 {headers:{token:companyToken}}
             )
             if(data.status){
@@ -115,7 +116,7 @@ const AddJob = () => {
                 </div>
             </div>
             <div className='flex flex-col sm:flex-row gap-2 w-full sm:gap-8'>
-            <div>
+                <div>
                     <p className='mb-2'>Application Deadline</p>
                     <input 
                         type="date" 
@@ -124,6 +125,13 @@ const AddJob = () => {
                         onChange={(e) => setDeadline(e.target.value)} 
                         required
                     />
+                </div>
+                <div>
+                    <p className='mb-2'>Work Place</p>
+                    <select className='w-full px-3 py-2 border-2 border-gray-300 rounded' onChange={(e)=>setWorkPlace(e.target.value)}>
+                        <option value="Beginner Level">Remote</option>
+                        <option value="Intermediate Level">On Site</option>
+                    </select>
                 </div>
             </div>
             <div className='flex flex-col sm:flex-row gap-2 w-full sm:gap-8'>

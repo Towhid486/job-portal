@@ -96,6 +96,10 @@ const ApplyJob = () => {
                                     <img src={assets.money_icon} alt="" />
                                     CTC: {kconvert.convertTo(jobData.salary)}
                                 </span>
+                                <p>{jobData.workPlace}</p>
+                            </div>
+                            <div>
+                                
                             </div>
                             
                         </div>
