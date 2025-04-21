@@ -1,4 +1,4 @@
-import { RecruiterFirebaseLoginService, AddNewJobService, ChangeJobVisibilityService, GetRecruiterJobApplicantsService, GetRecruiterPostedJobService, ChangeJobApplicationsStatusService, ReadRecruiterDataService, RecruiterLoginService, RecruiterRegistrationService } from './../service/RecruiterService.js';
+import { RecruiterFirebaseLoginService, AddNewJobService, ChangeJobVisibilityService, GetRecruiterJobApplicantsService, GetRecruiterPostedJobService, ChangeJobApplicationsStatusService, ReadRecruiterDataService, UpdateRecruiterProfileService, RecruiterLoginService, RecruiterRegistrationService } from './../service/RecruiterService.js';
 
 export const RecruiterFirebaseLogin = async (req,res) =>{
     let result=await RecruiterFirebaseLoginService(req)
@@ -49,6 +49,11 @@ export const RecruiterLogout=async (req,res)=>{
 }
 export const ReadRecruiterData=async (req,res)=>{
     let result=await ReadRecruiterDataService(req)
+    return res.status(200).json(result)
+}
+
+export const UpdateRecruiterProfile=async (req,res)=>{
+    let result=await UpdateRecruiterProfileService(req)
     return res.status(200).json(result)
 }
 

@@ -168,7 +168,7 @@ const JobList = () => {
                 <h3 className='font-medium text-3xl py-2' id='job-list'>Most Recent jobs</h3>
                 <p className='mb-8'>Get your desired job from top companies</p>
                 {
-                    filteredJobs?.length===0 ?
+                    jobs?.length===0 ?
                     (
                         <div className='flex pt-12 mt-10 items-center justify-center'>
                             <div className='w-10 h-10 border-6 border-gray-300 border-t-blue-400 rounded-full animate-spin'></div>

@@ -1,4 +1,4 @@
-import { FirebaseLoginService, ApplyForJobService, AlreadyAppliedJobService, getUserJobApplicationService, LoginService, ReadUserDataService, RegistrationService, UpdateUserResumeService } from "../service/UserService.js";
+import { FirebaseLoginService, ApplyForJobService, AlreadyAppliedJobService, getUserJobApplicationService, LoginService, ReadUserDataService, UpdateUserProfileService, RegistrationService, UpdateUserResumeService } from "../service/UserService.js";
 
 
 export const FirebaseLogin = async (req,res) =>{
@@ -55,6 +55,15 @@ export const ReadUserData=async (req,res)=>{
     return res.status(200).json(result)
 }
 
+export const UpdateUserResume=async (req,res)=>{
+    let result=await UpdateUserResumeService(req)
+    return res.status(200).json(result)
+}
+
+export const UpdateUserProfile=async (req,res)=>{
+    let result=await UpdateUserProfileService(req)
+    return res.status(200).json(result)
+}
 export const applyForJob=async (req,res)=>{
     let result=await ApplyForJobService(req)
     return res.status(200).json(result)
@@ -71,7 +80,3 @@ export const getUserJobApplication=async (req,res)=>{
     return res.status(200).json(result)
 }
 
-export const UpdateUserResume=async (req,res)=>{
-    let result=await UpdateUserResumeService(req)
-    return res.status(200).json(result)
-}

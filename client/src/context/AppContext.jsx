@@ -49,6 +49,7 @@ export const AppContextProvider = (props) =>{
     // function to fetch User data
     const fetchUserData = async () => {
         try{
+            const userToken =  localStorage.getItem('user_token')
             const {data} = await axios.get(`${backendURL}/user-data`, {headers:{token:userToken}})
             if(data?.status){
                 setUserData(data?.data)                
@@ -62,8 +63,12 @@ export const AppContextProvider = (props) =>{
 
     //function to fetch user's applied applications data
     const fetchUserApplications = async () =>{
+        const userToken =  localStorage.getItem('user_token')
+        if(!userToken){
+            toast.error("Login Required")
+            return;
+        }
         try{
-            const userToken =  localStorage.getItem('user_token')
             const {data} = await axios.get(`${backendURL}/applications`, {headers:{token:userToken}})
             if(data?.status){
                 setUserApplications(data?.applications.reverse())
@@ -118,16 +123,14 @@ export const AppContextProvider = (props) =>{
         searchFilter, setSearchFilter,
         isSearched, setIsSearched,
         jobs, setJobs,
-
         showUserLogin, setShowUserLogin,
         userToken, setUserToken,
         userData, setUserData, fetchUserData,
         userApplications, setUserApplications,
         fetchUserApplications,
-        
         showRecruiterLogin, setShowRecruiterLogin,
         companyToken, setCompanyToken,
-        companyData, setCompanyData
+        companyData, setCompanyData, fetchCompanyData
     }
     return (
         <AppContext.Provider value={value}>

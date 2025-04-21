@@ -10,7 +10,7 @@ const ManageJobs = () => {
 
     const navigate = useNavigate()
     const [jobs, setJobs] = useState(false)
-    const {backendURL, companyToken} = useContext(AppContext)
+    const {backendURL, companyToken, setShowRecruiterLogin} = useContext(AppContext)
 
     const fetchCompanyJobs = async () => {
         try{

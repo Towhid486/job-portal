@@ -90,6 +90,25 @@ export const ReadRecruiterDataService = async (req)=>{
     }
 }
 
+export const UpdateRecruiterProfileService = async (req) => {
+    try {
+        let recruiterId = req.headers['user_id']
+        let ReqBody = req.body;
+        let imageFile = req.file;
+
+        if (imageFile) {
+            const imageUpload = await cloudinary.uploader.upload(imageFile.path);
+            ReqBody.image = imageUpload.secure_url;
+        }
+        // Update user with all provided fields (both image and/or other fields)
+        await recruiterModel.updateOne({_id: recruiterId}, {$set: ReqBody});
+        return {status: true, message: "Your Profile Updated"};
+    }
+    catch(e) {
+        return {status: false, message: e.message};
+    }
+}
+
 export const AddNewJobService = async (req)=>{
     try{
        let reqBody = req.body;

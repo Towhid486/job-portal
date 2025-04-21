@@ -11,8 +11,10 @@ import ManageJobs from './components/Recruiter-Dashboards/ManageJobs';
 import ViewApplications from './components/Recruiter-Dashboards/ViewApplications';
 import UserLogin from './components/Authorization/User/UserLogin';
 import GoogleAuth from './components/Authorization/firebase/googleAuth';
+import UserProfilePage from './pages/UserProfilePage';
+import RecruiterProfilePage from './pages/RecruiterProfilePage';
 const App = () => {
-  const {showRecruiterLogin, showUserLogin, companyToken} = useContext(AppContext)
+  const {showRecruiterLogin, showUserLogin, companyToken, setShowRecruiterLogin} = useContext(AppContext)
   return (
       <BrowserRouter>
         {showRecruiterLogin && <RecruiterLogin/>}
@@ -20,19 +22,17 @@ const App = () => {
         <Routes>
           <Route path='/auth' element={<GoogleAuth/>}/>
           <Route path='/' element={<HomePage/>}/>
+          <Route path='/user-profile' element={<UserProfilePage/>}/>
           <Route path='/apply-job/:id' element={<ApplyJobPage/>}/>
           <Route path='/applications' element={<ApplicationsPage/>}/>
+          <Route path='/recruiter-profile' element={<RecruiterProfilePage/>}/>
           <Route path='/dashboard' element={<RecruiterDashBoardPage/>}>
             {/* Redirect "/dashboard" to "/dashboard/view-applications" */}
-              {
-                companyToken ? 
-                  <>
+                  
                     <Route index element={<Navigate to="/dashboard/manage-jobs" replace />} />
                     <Route path='add-job' element={<AddJob/>}/>
                     <Route path='manage-jobs' element={<ManageJobs/>}/>
                     <Route path='view-applications' element={<ViewApplications/>}/>
-                  </> : null
-              }
             
           </Route>
         </Routes>

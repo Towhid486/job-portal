@@ -15,12 +15,12 @@ const SidebarJobCard = ({job, index}) => {
                 <img className='h-10 w-10 mt-2 rounded-full' src={job?.recruiterId?.image} alt="" />
             </div>
             
-            <div className='flex items-center gap-3 mt-2 text-xs'>
-                <span className="bg-blue-50 border border-blue-200 px-4 py-1.5 rounded flex">
+            <div className='flex items-center gap-3 max-sm:gap-3 mt-2 text-xs'>
+                <span className="bg-blue-50 border border-blue-200 px-4 max-sm:px-3 py-1.5 rounded flex">
                     <img className='max-w-3 mr-1' src={'https://jobs.bdjobs.com/images/Location.svg'} alt="" />{job?.location}
                 </span>
-                <span className="bg-black text-white border border-white px-4 py-1.5 rounded">{job?.level}</span>
-                <p className='text-sm max-sm:hidden'>Vacancy <strong>{job?.vacancy}</strong></p>
+                <span className="bg-black text-white border border-white px-4 max-sm:px-3 py-1.5 rounded">{job?.level}</span>
+                <p className='text-sm font-bold'>{job?.workPlace}</p>
             </div>
             <p className='text-gray-500 text-sm mt-2 hidden max-md:block' dangerouslySetInnerHTML={{__html:job.description.slice(0,160)+"..."}}></p>
             <p className='text-gray-500 text-sm mt-2 max-md:hidden' dangerouslySetInnerHTML={{__html:job.description.slice(0,300)+"..."}}></p>

@@ -45,6 +45,19 @@ const NavBar = () => {
                                     }
                                     <div className={`${showOption?"":"hidden"} absolute top-0 right-0 text-black rounded mt-12`}>
                                         <ul className='list-none m-0 p-2 bg-white rounded-md border border-gray-200 text-sm'>
+                                            <li className="flex justify-center mb-2">
+                                                <Link to={'/user-profile'}>
+                                                    {!userData?.image ? (
+                                                        <img onClick={ (e) => setShowOption(prev => !prev)}  className='w-12 border border-gray-200 rounded-full cursor-pointer' src={assets.person_icon} alt="" />
+                                                    )
+                                                    : (
+                                                        <img onClick={ (e) => setShowOption(prev => !prev)}  className='w-12 border border-gray-200 rounded-full cursor-pointer' src={userData?.image} alt="" />
+
+                                                    )
+                                                    }
+                                                </Link>
+                                            </li>
+                                            <li><Link className='block py-1 px-2 cursor-pointer pr-10 rounded-md border border-gray-200' to={'/user-profile'}>Profile</Link></li>
                                             <li><Link className='block sm:hidden py-1 px-2 cursor-pointer pr-10 rounded-md border border-gray-200' to={'/applications'}>Applied</Link></li>
                                             <li onClick={(e)=>logout()} className='py-1 px-2 cursor-pointer pr-10 bg-black text-white rounded-md border border-gray-200 mt-2'>Logout</li>
                                         </ul>
@@ -61,6 +74,19 @@ const NavBar = () => {
                                     <img onClick={ (e) => setShowOption(prev => !prev)} className='w-8 border border-gray-200 rounded-full cursor-pointer' src={companyData?.image} alt="" />
                                     <div className={`${showOption?"":"hidden"} absolute top-0 right-0 z-10 text-black rounded mt-12`}>
                                         <ul className='list-none m-0 p-2 bg-light rounded-md border border-gray-200 text-sm'>
+                                            <li className="flex justify-center mb-2">
+                                                <Link to={'/recruiter-profile'}>
+                                                    {!companyData?.image ? (
+                                                        <img onClick={ (e) => setShowOption(prev => !prev)}  className='w-12 border border-gray-200 rounded-full cursor-pointer' src={assets.person_icon} alt="" />
+                                                    )
+                                                    : (
+                                                        <img onClick={ (e) => setShowOption(prev => !prev)}  className='w-12 border border-gray-200 rounded-full cursor-pointer' src={companyData?.image} alt="" />
+
+                                                    )
+                                                    }
+                                                </Link>
+                                            </li>
+                                            <li><Link className='block bg-white py-1 px-2 cursor-pointer pr-10 rounded-md border border-gray-200' to={'/recruiter-profile'}>Profile</Link></li>
                                             <li onClick={(e)=>logout()} className='py-1 px-2 bg-black text-white cursor-pointer pr-10'>Logout</li>
                                         </ul>
                                     </div>

@@ -12,12 +12,13 @@ router.post('/registration',upload.single("image"),UserController.UserRegistrati
 router.post('/login', UserController.UserLogin)
 router.post('/logout', UserController.UserLogout)
 router.get('/user-data',AuthVerification,UserController.ReadUserData)
+router.post('/update-user-profile',AuthVerification,upload.single("image"),UserController.UpdateUserProfile)
+router.post('/update-resume',AuthVerification,upload.single("resume"),UserController.UpdateUserResume)
 
-// User Job apply, job applied and update resume
+// User Job apply, job applied, already applied.
 router.post('/apply-job',AuthVerification,UserController.applyForJob)
 router.get('/isApplied/:jobId',AuthVerification,UserController.alreadyApplied)
 router.get('/applications',AuthVerification,UserController.getUserJobApplication)
-router.post('/update-resume',AuthVerification,upload.single("resume"),UserController.UpdateUserResume)
 
 
 // Recruiter login
@@ -26,8 +27,9 @@ router.post('/recruiter-register',upload.single("image"),RecruiterController.Rec
 router.post('/recruiter-login',RecruiterController.RecruiterLogin)
 router.post('/recruiter-logout',RecruiterController.RecruiterLogout)
 
-//Recruiter or Company Data, add new job, applicants
+//Recruiter or Company Data, update profile, add new job, applicants
 router.get('/company',AuthVerification,RecruiterController.ReadRecruiterData)
+router.post('/update-recruiter-profile',AuthVerification,upload.single("image"),RecruiterController.UpdateRecruiterProfile)
 
 router.post('/add-new-job',AuthVerification,RecruiterController.AddNewJob)
 router.get('/applicants',AuthVerification,RecruiterController.GetJobApplicants)

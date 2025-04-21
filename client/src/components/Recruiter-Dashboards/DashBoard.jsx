@@ -1,14 +1,16 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { assets } from '../../assets/assets';
 import { AppContext } from '../../context/AppContext';
 import axios from 'axios';
 import Footer from '../Footer';
+import toast from 'react-hot-toast';
 
 const DashBoard = () => {
-    const {backendURL, setShowRecruiterLogin,companyToken, setCompanyToken, companyData} = useContext(AppContext)
+    const {backendURL, setCompanyToken, companyData, setShowRecruiterLogin} = useContext(AppContext)
     const navigate = useNavigate()
     const [showOption, setShowOption] = useState(false)
+    const companyToken = localStorage.getItem('recruiter_token');
 
     const logout = async () => {
         await axios.post(`${backendURL}/recruiter-logout`,{}, {withCredentials: true})
@@ -16,6 +18,12 @@ const DashBoard = () => {
         setCompanyToken(null)
         navigate('/')
     }
+    useEffect(() => {
+        if (!companyToken) {
+            toast.error("Recruiter Login Required!");
+            navigate('/');
+        }
+    }, [companyToken, navigate]);
     return (
         <>
         {
@@ -33,6 +41,8 @@ const DashBoard = () => {
                                     <img onClick={ (e) => setShowOption(prev => !prev)} className='w-8 border border-gray-200 rounded-full cursor-pointer' src={companyData?.image} alt="" />
                                     <div className={`${showOption?"":"hidden"} absolute top-0 right-0 z-10 text-black rounded mt-12`}>
                                         <ul className='list-none m-0 p-2 bg-light rounded-md border border-gray-200 text-sm'>
+                                            <li><Link className='block bg-white py-1 px-2 cursor-pointer pr-10 rounded-md border border-gray-200' to={'/recruiter-profile'}>Profile</Link></li>
+                                            <li><Link className='block bg-white py-1 px-2 cursor-pointer pr-10 rounded-md border border-gray-200' to={'/dashboard'}>Dashboard</Link></li>
                                             <li onClick={(e)=>logout()} className='py-1 px-2 bg-black text-white cursor-pointer pr-10'>Logout</li>
                                         </ul>
                                     </div>
