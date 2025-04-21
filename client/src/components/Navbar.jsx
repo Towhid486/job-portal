@@ -87,6 +87,7 @@ const NavBar = () => {
                                                 </Link>
                                             </li>
                                             <li><Link className='block bg-white py-1 px-2 cursor-pointer pr-10 rounded-md border border-gray-200' to={'/recruiter-profile'}>Profile</Link></li>
+                                            <li><Link className='block bg-white py-1 px-2 cursor-pointer pr-10 rounded-md border border-gray-200' to={'/dashboard'}>Dashboard</Link></li>
                                             <li onClick={(e)=>logout()} className='py-1 px-2 bg-black text-white cursor-pointer pr-10'>Logout</li>
                                         </ul>
                                     </div>
