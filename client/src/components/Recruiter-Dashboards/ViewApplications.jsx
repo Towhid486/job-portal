@@ -9,8 +9,7 @@ const ViewApplications = () => {
     const companyToken = localStorage.getItem('recruiter_token');
     const {backendURL} = useContext(AppContext)
     const [ applicants, setApplicants] = useState(null)
-    const [showOption, setShowOption] = useState(false)
-
+    const [visibleOptionIndex, setVisibleOptionIndex] = useState(null)
 
     //function to get company job applications
     const getCompanyJobApplications = async () =>{
@@ -105,11 +104,13 @@ const ViewApplications = () => {
                                         {
                                             applicant?.status === "Pending"
                                             ? <div className='relative'>
-                                                <button onClick={ (e) => setShowOption(prev => !prev)}  className='text-gray-500  action-button pb-2'>...</button>
-                                                <div className={`${showOption?"":"hidden"} absolute top-0 right-0 mt-8 z-10 w-32 bg-white border border-gray-200 rounded shadow group-hover:block`}>
-                                                    <button onClick={()=>ChangeJobApplicationsStatus(applicant?._id,"Accepted")} className='block w-full text-center px-4  py-2 text-blue-500 hover:bg-gray-100'>Accept</button>
-                                                    <button onClick={()=>ChangeJobApplicationsStatus(applicant?._id,"Rejected")} className='block w-full text-center px-4  py-2 text-red-500 hover:bg-gray-100'>Reject</button>
+                                                <button onClick={() => setVisibleOptionIndex(visibleOptionIndex === index ? null : index)} className='text-gray-500 action-button pb-2'>...</button>
+
+                                                <div className={`${visibleOptionIndex === index ? "" : "hidden"} absolute top-0 right-0 mt-8 z-10 w-32 bg-white border border-gray-200 rounded shadow`}>
+                                                  <button onClick={() => ChangeJobApplicationsStatus(applicant?._id, "Accepted")} className='block w-full text-center px-4 py-2 text-blue-500 hover:bg-gray-100'>Accept</button>
+                                                  <button onClick={() => ChangeJobApplicationsStatus(applicant?._id, "Rejected")} className='block w-full text-center px-4 py-2 text-red-500 hover:bg-gray-100'>Reject</button>
                                                 </div>
+
                                             </div>
                                             : <div>{applicant?.status}</div>
                                         }
