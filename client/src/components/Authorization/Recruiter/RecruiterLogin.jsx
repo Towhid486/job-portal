@@ -42,6 +42,10 @@ const RecruiterLogin = () => {
                     toast.error(data.message)
                 }
             }else{
+                if (!image) {
+                    alert("Please upload a profile image.");
+                    return;
+                }
                 const formData = new FormData()
                 formData.append('name', name);
                 formData.append('email', email);
@@ -84,7 +88,7 @@ const RecruiterLogin = () => {
                         <div>
                             <label className='flex items-center gap-4 my-10' htmlFor="image">
                                 <img className='w-16 rounded-full' src={image? URL.createObjectURL(image) : assets.upload_area} alt="" />
-                                <input onChange={(e)=>setImage(e.target.files[0])} type="file" id='image' hidden />
+                                <input onChange={(e)=>setImage(e.target.files[0])} type="file" id='image' hidden required/>
                                 <p>Upload Company <br/> logo</p>
                             </label>
                         </div>
