@@ -50,9 +50,14 @@ export const RegistrationService = async (req) => {
             password,
             image: imageUpload.secure_url,
         });
-        // Generate Token
-        let token = EncodeToken(data.email, data._id);
-        return { status: true, message: "Registration success", token: token, data: data };
+        if(data.length>0){
+            // Generate Token
+            let token = EncodeToken(data.email, data._id);
+            return { status: true, message: "Registration success", token: token, data: data };
+        }else{
+            return {status:false, message: "Something went wrong!"}
+        }
+       
     } catch (e) {
         return { status: false, message: e.toString() };
     }
@@ -61,10 +66,10 @@ export const RegistrationService = async (req) => {
 export const LoginService = async (req)=>{
     try{
         let {email,password} = req.body;
-        let data = await userModel.findOne({email:email});
+        let data = await userModel.findOne({email:email,password:password});
 
-        if(password===data?.password){
-            let token = EncodeToken(data['email'],data['_id'].toString())
+        if(data.length>0){
+            let token = EncodeToken(data['email'],data['_id'])
             return {status:true, message:"Login success", token:token, data:data}
         }
         else{

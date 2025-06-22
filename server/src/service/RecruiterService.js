@@ -48,11 +48,13 @@ export const RecruiterRegistrationService = async (req)=>{
             password:hashPassword,
             image: imageUpload.secure_url
         })
-        let token = EncodeToken(data['email'],data['_id'])
-        return {status:true, message:"Registration success", token:token, data:data}
-
-    }
-    catch(e){
+        if(data.length>0){
+            let token = EncodeToken(data['email'],data['_id'])
+            return {status:true, message:"Registration success", token:token, data:data}
+        }else{
+            return {status:false, message:"Something Went Wrong"}
+        }
+    }catch(e){
         return {status:false, message:e.message}
     }
 }
@@ -71,7 +73,7 @@ export const RecruiterLoginService = async (req)=>{
             return {status:true, message:"Login success", token:token, data:data}
         }
         else{
-            return {status:true, message:"Invalid Email or Password"}
+            return {status:false, message:"Invalid Email or Password"}
         }
     }
     catch(e){
