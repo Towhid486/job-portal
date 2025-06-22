@@ -88,7 +88,7 @@ const RecruiterLogin = () => {
                         <div>
                             <label className='flex items-center gap-4 my-10' htmlFor="image">
                                 <img className='w-16 rounded-full' src={image? URL.createObjectURL(image) : assets.upload_area} alt="" />
-                                <input onChange={(e)=>setImage(e.target.files[0])} type="file" id='image' hidden required/>
+                                <input onChange={(e)=>setImage(e.target.files[0])} type="file" id='image' hidden/>
                                 <p>Upload Company <br/> logo</p>
                             </label>
                         </div>

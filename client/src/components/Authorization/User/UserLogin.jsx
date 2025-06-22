@@ -43,13 +43,14 @@ const UserLogin = () => {
                 }
             }else{
                 if (!image) {
-                    alert("Please upload a profile image.");
+                    toast.error("Please upload a profile image.");
                     return;
                 }
                 const formData = new FormData()
                 formData.append('name', name);
                 formData.append('email', email);
                 formData.append('password', password);
+
                 formData.append('image', image);
                 
                 const {data} = await axios.post(`${backendURL}/registration`,formData)
@@ -59,7 +60,7 @@ const UserLogin = () => {
                     setUserToken(data.token)
                     localStorage.setItem('user_token',data.token)
                     setShowUserLogin(false)
-                    // navigate('/applications')
+                    navigate('/applications')
                 }else{
                     toast.error(data.message)
                 }
@@ -88,7 +89,7 @@ const UserLogin = () => {
                         <div>
                             <label className='flex items-center gap-4 my-10' htmlFor="image">
                                 <img className='w-16 rounded-full' src={image? URL.createObjectURL(image) : assets.upload_area} alt="" />
-                                <input onChange={(e)=>setImage(e.target.files[0])} type="file" id='image' hidden required />
+                                <input onChange={(e)=>setImage(e.target.files[0])} type="file" id='image' hidden />
                                 <p>Upload <br/>Profile</p>
                             </label>
                         </div>
