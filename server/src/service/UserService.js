@@ -50,7 +50,7 @@ export const RegistrationService = async (req) => {
             password,
             image: imageUpload.secure_url,
         });
-        if(data.length>0){
+        if(data){
             // Generate Token
             let token = EncodeToken(data.email, data._id);
             return { status: true, message: "Registration success", token: token, data: data };
@@ -68,12 +68,12 @@ export const LoginService = async (req)=>{
         let {email,password} = req.body;
         let data = await userModel.findOne({email:email,password:password});
 
-        if(data.length>0){
+        if(data){
             let token = EncodeToken(data['email'],data['_id'])
             return {status:true, message:"Login success", token:token, data:data}
         }
         else{
-            return {status:false, message:"Invalid Email or Password"}
+            return {status:false, message:"Invalid Email or Password", data:data}
         }
     }
     catch(e){

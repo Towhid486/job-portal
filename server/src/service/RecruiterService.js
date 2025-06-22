@@ -48,7 +48,7 @@ export const RecruiterRegistrationService = async (req)=>{
             password:hashPassword,
             image: imageUpload.secure_url
         })
-        if(data.length>0){
+        if(data){
             let token = EncodeToken(data['email'],data['_id'])
             return {status:true, message:"Registration success", token:token, data:data}
         }else{
